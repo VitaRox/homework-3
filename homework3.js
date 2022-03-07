@@ -12,8 +12,8 @@ Homework 3:
 // They cannot be created adhoc, like other fields.They need to be declared upfront, in a class.
 // Source: https://javascript.plainenglish.io/private-members-in-javascript-classes-cb04944f1ae2
 
-console.log(`Class person syntax: `);
 // Newfangled class syntax for making private methods and fields:
+console.log(`Class person syntax: `);
 class Human {
   #age
   #name;
@@ -36,6 +36,7 @@ console.log(`However, using our getters should yield 11: ${Kimberly.getAge()} an
 // Add newlines for readability:
 console.log(`\n * * * * * * * * * * * * \n`);
 
+// Function syntax:
 console.log(`function Person syntax: `);
 function Person(age, name) {
 
@@ -67,9 +68,50 @@ console.log(`Should say age is 54: ${Jim.getAge()}`);
 Jim.age = 99;
 console.log(`Jim should still be 54: ${Jim.getAge()}`);
 
-
+console.log(`\n * * * * * * * * * \n`);
 // - create a class call Car that has mileage and name as its properties
 // - create a subclass called Motorcycle that is a subclass of Car with an additional property called color
 // Car class should be able to increase its mileage and have a setter that sets its name and a method to reset its mileage.
 // - motorcyle class should be able to repaint itself.Through repainting, it should decrease its mileage to 0.
 // Do not access.mileage directly and set it to 0 but instead use parent method to do that.
+class Car {
+  constructor(mileage, name) {
+    this.mileage = mileage;
+    this.name = name;
+  }
+  increaseMileage = (addedMiles) => {
+    this.mileage += addedMiles;
+  };
+  resetMileage() {
+    this.mileage = 0;
+  };
+  setName = (newName) => {
+    this.name = newName;
+  };
+}
+
+class Motorcycle extends Car {
+  constructor(mileage, name, color) {
+    super(mileage, name);
+    this.color = color;
+  }
+  // This leverages parent method resetMileage() to reset our Motorcycle instance's own mileage to 0 once more;
+  repaint = () => {
+    super.resetMileage();
+  };
+}
+
+// Class Car tests:
+let Hyundai = new Car(9999, "Hyundai");
+console.log(`Name should be Hyundai: ${Hyundai.name}`);
+console.log(`Mileage should be 9999: ${Hyundai.mileage}`);
+console.log(`Resetting mileage:`);
+Hyundai.resetMileage();
+console.log(`Mileage should now be 0: ${Hyundai.mileage}`);
+
+// Class motorcycle tests:
+let Harley = new Motorcycle(100, "Harley-Davidson", "purple");
+console.log(Harley);
+// After repaint(), mileage shouold be 0
+Harley.repaint();
+console.log(Harley);
